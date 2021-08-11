@@ -34,7 +34,7 @@ object InjectUtil {
                 }
                 val forName = Class.forName(name)
                 var constructors = forName.constructors
-                val newInstance = constructors.get(0).newInstance()
+                val newInstance = constructors.get(0).newInstance(obj)
                 field.set(obj,newInstance)
             }
         }
