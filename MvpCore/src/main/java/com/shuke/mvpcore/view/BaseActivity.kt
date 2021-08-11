@@ -1,6 +1,9 @@
 package com.shuke.mvpcore.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.shuke.common.StatusBarUtil
 
@@ -48,4 +51,54 @@ abstract class BaseActivity : AppCompatActivity(){
      * 获取布局ID
      */
     abstract fun getLayoutId(): Int
+
+    /**
+     * 页面跳转 无参
+     */
+    fun jumpActivity(target: Class<*>){
+        startActivity(Intent(this@BaseActivity,target))
+    }
+
+    /**
+     * 页面跳转 有参
+     */
+    fun jumpActivity(target: Class<*>,params:Bundle?){
+        var intent : Intent = Intent(this@BaseActivity,target)
+        intent.putExtra("params",params)
+        startActivity(intent)
+    }
+
+    /**
+     * 显示短时间消息 吐司
+     */
+    fun showShortMsg(msg:String){
+        Toast.makeText(this@BaseActivity, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    /**
+     * 显示长时间消息 吐司
+     */
+    fun showLongMsg(msg:String){
+        Toast.makeText(this@BaseActivity, msg, Toast.LENGTH_LONG).show()
+    }
+
+    /**
+     * 查找资源
+     */
+    fun <T : View> Find(id : Int) : T{
+        return findViewById(id)
+    }
+
+    /**
+     * 释放资源
+     */
+    abstract fun releaseResource()
+
+    /**
+     * 页面销毁释放资源
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        releaseResource()
+    }
 }
